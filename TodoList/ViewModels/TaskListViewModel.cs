@@ -12,6 +12,8 @@ namespace TodoList.ViewModels
 
         private ObservableCollection<TaskVievModel> _tasks;
 
+        private DatabaseConnectionHandler dbConnectionHandler;
+
         #endregion
 
         #region Public properties
@@ -38,9 +40,9 @@ namespace TodoList.ViewModels
         #region Constructor
         public TaskListViewModel()
         {
-            var x = new DatabaseConnectionHandler();
+            dbConnectionHandler = new DatabaseConnectionHandler();
             Tasks = new ObservableCollection<TaskVievModel>(
-                x.GetAllTasksFromDatabase().Tasks.Select(task =>
+                dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
                     new TaskVievModel() { Complete = task.Complete, Name = task.Name }));
 
 
@@ -60,9 +62,9 @@ namespace TodoList.ViewModels
 
             CCommand = new RelayCommand(() =>
             {
-                x = new DatabaseConnectionHandler();
+                dbConnectionHandler = new DatabaseConnectionHandler();
                 Tasks = new ObservableCollection<TaskVievModel>(
-                    x.GetAllTasksFromDatabase().Tasks.Select(task =>
+                    dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
                         new TaskVievModel() { Complete = task.Complete, Name = task.Name }));
             });
 
