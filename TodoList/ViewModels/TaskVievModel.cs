@@ -13,6 +13,7 @@ namespace TodoList.ViewModels
         private string _name;
         private bool _complete;
         private string _description;
+      
 
         #endregion
 
@@ -22,6 +23,8 @@ namespace TodoList.ViewModels
         }
 
         #region Public properties
+
+        public int ID { get; set; }
 
         public string Name
         {

@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 
 namespace TodoList.DatabaseStuff
 {
@@ -43,10 +44,10 @@ namespace TodoList.DatabaseStuff
 
             while (reader.Read())
             {
-                list.Tasks.Add(new Task() { Name = reader["name"].ToString(), Complete = (bool)reader["complete"] });
+                list.Tasks.Add(new Task() { Name = reader["taskName"].ToString(), Complete = (bool)reader["complete"], ID = Convert.ToInt32(reader["ID"]) });
             }
 
-            Disconnect();
+            //Disconnect();
             return list;
         }
 
@@ -58,16 +59,22 @@ namespace TodoList.DatabaseStuff
         {
             Connect();
 
-            var sql = $"insert into {_tasksTableName} (name, complete) values ('{task.Name}', 0)";
+            var sql = $"insert into {_tasksTableName} (taskName, complete) values ('{task.Name}', 0)";
             var command = new SQLiteCommand(sql, _dbConnection);
             command.ExecuteNonQuery();
 
-            Disconnect();
+            //Disconnect();
         }
 
-        public void RemoveTask(Task t)
+        public void RemoveTaskById(int id)
         {
-            
+            Connect();
+
+            var sql = $"delete from {_tasksTableName} where id={id};";
+            var command = new SQLiteCommand(sql, _dbConnection);
+            command.ExecuteNonQuery();
+
+            //Disconnect();
         }
 
         #endregion
@@ -103,8 +110,10 @@ namespace TodoList.DatabaseStuff
 
         public DatabaseConnectionHandler()
         {
-            _tasksTableName = "tab1";
+            _tasksTableName = "tab2";
             _selectAllTasksCommand = $"select * from {_tasksTableName}";
+
+            Connect();
 
         }
 

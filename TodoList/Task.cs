@@ -27,7 +27,7 @@ namespace TodoList
 
         public bool Complete { get; set; }
 
-        public int ID => _id;
+        public int ID { get; set; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace TodoList
 
         public Task()
         {
-           
+
         }
 
         #endregion

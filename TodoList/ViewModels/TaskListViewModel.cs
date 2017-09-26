@@ -1,5 +1,5 @@
 ﻿//TODO refaktoryzacja konstruktora
-//TODO możliwość usuwania zadań
+//TODO oznaczanie zadan jako ukonczonych
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,7 +18,7 @@ namespace TodoList.ViewModels
         {
             var task = new TaskVievModel() { Complete = false, Name = "qwe" };
             Tasks.Add(task);
-            _dbConnectionHandler.AddNewTask(new Task() { Name = task.Name, Complete = task.Complete });
+            _dbConnectionHandler.AddNewTask(new Task() { Name = task.Name, Complete = task.Complete, ID = task.ID});
         }
 
         #endregion
@@ -43,9 +43,10 @@ namespace TodoList.ViewModels
             _dbConnectionHandler = new DatabaseConnectionHandler();
             Tasks = new ObservableCollection<TaskVievModel>(
                 _dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
-                    new TaskVievModel() { Complete = task.Complete, Name = task.Name }));
+                    new TaskVievModel() { Complete = task.Complete, Name = task.Name, ID = task.ID}));
 
 
+            
 
             //Przykładowe komendy 
             #region ClickedCommand definition
@@ -78,7 +79,7 @@ namespace TodoList.ViewModels
             {
                 var task = (TaskVievModel) parameter;
                 Tasks.Remove(task);
-                _dbConnectionHandler.RemoveTask(new Task() {Complete = task.Complete, Name = task.Name});
+                _dbConnectionHandler.RemoveTaskById(task.ID);
             });
         }
 
@@ -93,7 +94,7 @@ namespace TodoList.ViewModels
         #endregion
 
         #region Commands
-
+        
 
         public ICommand ClickedCommand { get; set; }
         public ICommand CCommand { get; set; }
