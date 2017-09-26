@@ -11,7 +11,10 @@ namespace TodoList
     {
         #region Private members
 
-
+        /// <summary>
+        /// An unique identification number of the task
+        /// </summary>
+        private int _id;
 
         #endregion
 
@@ -23,6 +26,8 @@ namespace TodoList
         public string Description { get; set; }
 
         public bool Complete { get; set; }
+
+        public int ID => _id;
 
         #endregion
 
@@ -36,7 +41,7 @@ namespace TodoList
 
         public Task()
         {
-            
+           
         }
 
         #endregion

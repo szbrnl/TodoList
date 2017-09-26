@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
 
 namespace TodoList.ViewModels
 {
@@ -8,8 +12,14 @@ namespace TodoList.ViewModels
 
         private string _name;
         private bool _complete;
+        private string _description;
 
         #endregion
+
+        public TaskVievModel()
+        {
+            
+        }
 
         #region Public properties
 
@@ -47,5 +57,6 @@ namespace TodoList.ViewModels
         }
 
         #endregion
+
     }
 }
