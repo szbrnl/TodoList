@@ -65,6 +65,11 @@ namespace TodoList.DatabaseStuff
             Disconnect();
         }
 
+        public void RemoveTask(Task t)
+        {
+            
+        }
+
         #endregion
 
         #region Private methods

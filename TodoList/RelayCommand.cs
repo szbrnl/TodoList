@@ -14,7 +14,7 @@ namespace TodoList
         /// <summary>
         /// The action to run
         /// </summary>
-        private Action mAction;
+        private Action<object> mAction;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace TodoList
         /// <summary>
         /// Default constructor
         /// </summary>
-        public RelayCommand(Action action)
+        public RelayCommand(Action<object> action)
         {
             mAction = action;
         }
@@ -57,7 +57,7 @@ namespace TodoList
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            mAction();
+            mAction(parameter);
         }
 
         #endregion

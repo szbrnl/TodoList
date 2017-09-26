@@ -50,7 +50,7 @@ namespace TodoList.ViewModels
             //Przykładowe komendy 
             #region ClickedCommand definition
 
-            ClickedCommand = new RelayCommand(() =>
+           /* ClickedCommand = new RelayCommand(() =>
             {
                 //Tasks[0].Name = "123";
                 //Tasks.Insert(1, new TaskVievModel() { Complete = false, Name = "nowy" });
@@ -58,23 +58,28 @@ namespace TodoList.ViewModels
                 //Tasks.RemoveAt(3);
 
                 AddNewTask();
-            });
+            });*/
 
             #endregion
 
             #region CCommand definition 
 
-            CCommand = new RelayCommand(() =>
+           /* CCommand = new RelayCommand(() =>
             {
                 _dbConnectionHandler = new DatabaseConnectionHandler();
                 Tasks = new ObservableCollection<TaskVievModel>(
                     _dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
                         new TaskVievModel() { Complete = task.Complete, Name = task.Name }));
-            });
+            });*/
 
             #endregion
 
-
+            DeleteTaskCommand = new RelayCommand(parameter =>
+            {
+                var task = (TaskVievModel) parameter;
+                Tasks.Remove(task);
+                _dbConnectionHandler.RemoveTask(new Task() {Complete = task.Complete, Name = task.Name});
+            });
         }
 
         #endregion
@@ -88,6 +93,7 @@ namespace TodoList.ViewModels
         #endregion
 
         #region Commands
+
 
         public ICommand ClickedCommand { get; set; }
         public ICommand CCommand { get; set; }

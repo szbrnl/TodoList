@@ -18,7 +18,7 @@ namespace TodoList.ViewModels
 
         public TaskVievModel()
         {
-            
+           // DeleteTaskCommand = new RelayCommand(() => MessageBox.Show("as"));
         }
 
         #region Public properties
@@ -46,6 +46,11 @@ namespace TodoList.ViewModels
         }
 
         #endregion
+
+
+        public ICommand DeleteTaskCommand { get; set; }
+
+
 
         #region PropertyChanged stuff
 
