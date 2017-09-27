@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace TodoList.ViewModels
 {
-    public class TaskVievModel : INotifyPropertyChanged
+    public class TaskViewModel : INotifyPropertyChanged
     {
         #region Private members
 
@@ -17,7 +17,7 @@ namespace TodoList.ViewModels
 
         #endregion
 
-        public TaskVievModel()
+        public TaskViewModel()
         {
            // DeleteTaskCommand = new RelayCommand(() => MessageBox.Show("as"));
         }

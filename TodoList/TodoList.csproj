@@ -78,7 +78,7 @@
     <Compile Include="DatabaseStuff\DatabaseConnectionHandler.cs" />
     <Compile Include="TaskList.cs" />
     <Compile Include="ViewModels\TaskListViewModel.cs" />
-    <Compile Include="ViewModels\TaskVievModel.cs" />
+    <Compile Include="ViewModels\TaskViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

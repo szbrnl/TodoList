@@ -15,7 +15,9 @@
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{Binding Name}"/>
                             <Label Content="{Binding ID}"/>
-                            <Button Content="Usuń" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteTaskCommand}" CommandParameter="{Binding}"></Button>
+                            <!--<Button Content="Usuń" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.DeleteTaskCommand}" CommandParameter="{Binding}"></Button>-->
+                            <CheckBox IsChecked="{Binding Complete}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TaskDoneChangedCommand}" CommandParameter="{Binding}"/>
+                            
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

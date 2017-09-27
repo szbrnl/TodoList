@@ -1,10 +1,6 @@
-﻿//TODO refaktoryzacja konstruktora
-//TODO oznaczanie zadan jako ukonczonych
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using TodoList.DatabaseStuff;
 
@@ -16,7 +12,7 @@ namespace TodoList.ViewModels
 
         private void AddNewTask()
         {
-            var task = new TaskVievModel() { Complete = false, Name = "qwe" };
+            var task = new TaskViewModel() { Complete = false, Name = "qwe" };
             Tasks.Add(task);
             _dbConnectionHandler.AddNewTask(new Task() { Name = task.Name, Complete = task.Complete, ID = task.ID});
         }
@@ -24,7 +20,7 @@ namespace TodoList.ViewModels
         #endregion
 
         #region Public properties
-        public ObservableCollection<TaskVievModel> Tasks
+        public ObservableCollection<TaskViewModel> Tasks
         {
             get => _tasks;
             set
@@ -41,45 +37,23 @@ namespace TodoList.ViewModels
         public TaskListViewModel()
         {
             _dbConnectionHandler = new DatabaseConnectionHandler();
-            Tasks = new ObservableCollection<TaskVievModel>(
+
+            Tasks = new ObservableCollection<TaskViewModel>(
                 _dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
-                    new TaskVievModel() { Complete = task.Complete, Name = task.Name, ID = task.ID}));
+                    new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID}));
 
-
-            
-
-            //Przykładowe komendy 
-            #region ClickedCommand definition
-
-           /* ClickedCommand = new RelayCommand(() =>
-            {
-                //Tasks[0].Name = "123";
-                //Tasks.Insert(1, new TaskVievModel() { Complete = false, Name = "nowy" });
-                //Tasks.RemoveAt(2);
-                //Tasks.RemoveAt(3);
-
-                AddNewTask();
-            });*/
-
-            #endregion
-
-            #region CCommand definition 
-
-           /* CCommand = new RelayCommand(() =>
-            {
-                _dbConnectionHandler = new DatabaseConnectionHandler();
-                Tasks = new ObservableCollection<TaskVievModel>(
-                    _dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
-                        new TaskVievModel() { Complete = task.Complete, Name = task.Name }));
-            });*/
-
-            #endregion
 
             DeleteTaskCommand = new RelayCommand(parameter =>
             {
-                var task = (TaskVievModel) parameter;
+                var task = (TaskViewModel) parameter;
                 Tasks.Remove(task);
                 _dbConnectionHandler.RemoveTaskById(task.ID);
+            });
+
+            TaskDoneChangedCommand = new RelayCommand(parameter =>
+            {
+                var task = (TaskViewModel) parameter;
+                _dbConnectionHandler.UpdateTask(new Task() {Complete = task.Complete, Name = task.Name, ID = task.ID});
             });
         }
 
@@ -87,7 +61,7 @@ namespace TodoList.ViewModels
 
         #region Private members
 
-        private ObservableCollection<TaskVievModel> _tasks;
+        private ObservableCollection<TaskViewModel> _tasks;
 
         private DatabaseConnectionHandler _dbConnectionHandler = null;
 
@@ -95,9 +69,14 @@ namespace TodoList.ViewModels
 
         #region Commands
         
+        /// <summary>
+        /// Switches the task to done/undone
+        /// </summary>
+        public ICommand TaskDoneChangedCommand { get; set; }
 
-        public ICommand ClickedCommand { get; set; }
-        public ICommand CCommand { get; set; }
+        /// <summary>
+        /// Command to delete selected task from viewmodel
+        /// </summary>
         public ICommand DeleteTaskCommand { get; set; }
 
         #endregion

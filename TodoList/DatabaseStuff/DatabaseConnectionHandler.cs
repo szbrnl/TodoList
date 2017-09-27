@@ -1,4 +1,7 @@
-﻿using System;
+﻿//TODO utworzyc kolejke zadan do wykonania i synchronizowac z baza danych raz na jakis czas i przy wylaczeniu programu
+
+
+using System;
 using System.Data.SQLite;
 
 namespace TodoList.DatabaseStuff
@@ -118,5 +121,14 @@ namespace TodoList.DatabaseStuff
         }
 
         #endregion
+
+        public void UpdateTask(Task task)
+        {
+            Connect();
+
+            var sql = $"update {_tasksTableName} set taskName='{task.Name}', complete={(task.Complete ? 1 : 0)} where id={task.ID};";
+            var command = new SQLiteCommand(sql, _dbConnection);
+            command.ExecuteNonQuery();
+        }
     }
 }
