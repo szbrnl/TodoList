@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//TODO
+//[ ] animacja zanikania zadania przy jego wykonaniu
+//[ ] ui dla textboxa do dodawania zadania
+//[ ] zapis do pliku binarnego zamiast do bazy danych (?)
+//[ ] sortowanie i pozycjonowanie zadań (wraz z zapisywaniem porządku)
+//[ ] drag and drop dla listy zadan
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TodoList.ViewModels;
 
 namespace TodoList
@@ -24,7 +18,9 @@ namespace TodoList
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new TaskListViewModel();
+            var viewmodel = new TaskListViewModel();
+            this.DataContext = viewmodel;
+            this.Closing += viewmodel.OnWindowClose;
         }
 
     }

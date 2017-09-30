@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DatabaseStuff\DatabaseSyncQueue.cs" />
+    <Compile Include="DatabaseStuff\DatabaseSyncQueueItem.cs" />
+    <Compile Include="DatabaseStuff\SyncTaskType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Task.cs" />
@@ -91,6 +94,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\TaskListStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -110,11 +117,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="bin\Debug\MyDatabase.sqlite" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\MyDatabase.sqlite" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

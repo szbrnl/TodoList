@@ -1,6 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿//Może zmienić bazę danych na zapisywanie do pliku binarnego całej TaskList?
+
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TodoList.DatabaseStuff;
 
@@ -14,8 +19,20 @@ namespace TodoList.ViewModels
         {
             var task = new TaskViewModel() { Complete = false, Name = "qwe" };
             Tasks.Add(task);
-            _dbConnectionHandler.AddNewTask(new Task() { Name = task.Name, Complete = task.Complete, ID = task.ID});
+            _syncQueue.AddItemToQueue(new Task() { Name = task.Name, Complete = task.Complete, ID = task.ID }, SyncTaskType.Add);
         }
+
+        /// <summary>
+        /// Function called just before the application closes
+        /// Forces the synchronization with the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnWindowClose(object sender, CancelEventArgs e)
+        {
+            _syncQueue.ForceSync();
+        }
+
 
         #endregion
 
@@ -34,28 +51,64 @@ namespace TodoList.ViewModels
         #endregion
 
         #region Constructor
+
         public TaskListViewModel()
         {
-            _dbConnectionHandler = new DatabaseConnectionHandler();
+            _syncQueue = new DatabaseSyncQueue();
 
             Tasks = new ObservableCollection<TaskViewModel>(
-                _dbConnectionHandler.GetAllTasksFromDatabase().Tasks.Select(task =>
-                    new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID}));
+                _syncQueue.GetAllTasks().Tasks.Select(task =>
+                    new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID }));
 
+
+            #region Commands definitions
 
             DeleteTaskCommand = new RelayCommand(parameter =>
             {
-                var task = (TaskViewModel) parameter;
+                var task = (TaskViewModel)parameter;
                 Tasks.Remove(task);
-                _dbConnectionHandler.RemoveTaskById(task.ID);
+                _syncQueue.AddItemToQueue(new Task() { ID = task.ID }, SyncTaskType.Delete);
             });
 
             TaskDoneChangedCommand = new RelayCommand(parameter =>
             {
-                var task = (TaskViewModel) parameter;
-                _dbConnectionHandler.UpdateTask(new Task() {Complete = task.Complete, Name = task.Name, ID = task.ID});
+                var task = (TaskViewModel)parameter;
+
+                //Prowizoryczne przesuwanie wykonanego zadania na koniec listy
+                Tasks.Remove(task);
+                Tasks.Add(task);
+                //TODO jakims magicznym soposobem należy zapamiętywać kolejność zadań
+
+                _syncQueue.AddItemToQueue(new Task() { Complete = task.Complete, Name = task.Name, ID = task.ID }, SyncTaskType.Update);
             });
+
+            AddTaskCommand = new RelayCommand(parameter =>
+            {
+                var textbox = (TextBox) parameter;
+                if (textbox.Text == "")
+                    return;
+
+                _syncQueue.AddItemToQueue(new Task() { Complete = false, Name = textbox.Text }, SyncTaskType.Add);
+                textbox.Clear();
+                _syncQueue.ForceSync();
+                Tasks.Clear();
+                Tasks = new ObservableCollection<TaskViewModel>(
+                    _syncQueue.GetAllTasks().Tasks.Select(task =>
+                        new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID }));
+                
+            });
+
+            EditTaskCommand = new RelayCommand(param =>
+            {
+                var task = (TaskViewModel) param;
+                
+            });
+
+            //TestCommand = new RelayCommand(param => MessageBox.Show("asdasd"+((TaskViewModel)param)?.Name));
+
+            #endregion
         }
+
 
         #endregion
 
@@ -63,12 +116,12 @@ namespace TodoList.ViewModels
 
         private ObservableCollection<TaskViewModel> _tasks;
 
-        private DatabaseConnectionHandler _dbConnectionHandler = null;
+        private DatabaseSyncQueue _syncQueue;
 
         #endregion
 
         #region Commands
-        
+
         /// <summary>
         /// Switches the task to done/undone
         /// </summary>
@@ -78,6 +131,12 @@ namespace TodoList.ViewModels
         /// Command to delete selected task from viewmodel
         /// </summary>
         public ICommand DeleteTaskCommand { get; set; }
+
+        public ICommand AddTaskCommand { get; set; }
+
+       // public ICommand TestCommand { get; set; }
+
+        public ICommand EditTaskCommand { get; set; }
 
         #endregion
 

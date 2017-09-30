@@ -3,6 +3,7 @@
 
 using System;
 using System.Data.SQLite;
+using TodoList.Properties;
 
 namespace TodoList.DatabaseStuff
 {
@@ -31,6 +32,15 @@ namespace TodoList.DatabaseStuff
         #endregion
 
         #region Public Methods
+
+        public void UpdateTask(Task task)
+        {
+            Connect();
+
+            var sql = $"update {_tasksTableName} set taskName='{task.Name}', complete={(task.Complete ? 1 : 0)} where id={task.ID};";
+            var command = new SQLiteCommand(sql, _dbConnection);
+            command.ExecuteNonQuery();
+        }
 
         /// <summary>
         /// Returns all tasks from the selected database
@@ -95,7 +105,7 @@ namespace TodoList.DatabaseStuff
             _dbConnection.Open();
             Connected = true;
         }
-
+        
         /// <summary>
         /// Closes the connection with the database
         /// </summary>
@@ -120,15 +130,6 @@ namespace TodoList.DatabaseStuff
 
         }
 
-        #endregion
-
-        public void UpdateTask(Task task)
-        {
-            Connect();
-
-            var sql = $"update {_tasksTableName} set taskName='{task.Name}', complete={(task.Complete ? 1 : 0)} where id={task.ID};";
-            var command = new SQLiteCommand(sql, _dbConnection);
-            command.ExecuteNonQuery();
-        }
+        #endregion   
     }
 }
