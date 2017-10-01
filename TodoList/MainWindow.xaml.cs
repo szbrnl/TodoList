@@ -1,7 +1,7 @@
 ﻿//TODO
 //[ ] animacja zanikania zadania przy jego wykonaniu
 //[ ] ui dla textboxa do dodawania zadania
-//[ ] zapis do pliku binarnego zamiast do bazy danych (?)
+//[ ] zmiana bazy danych na nosql
 //[ ] sortowanie i pozycjonowanie zadań (wraz z zapisywaniem porządku)
 //[ ] drag and drop dla listy zadan
 
