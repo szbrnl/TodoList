@@ -8,8 +8,14 @@ namespace TodoList.ViewModels
 {
     public class TaskViewModel : INotifyPropertyChanged
     {
+        #region Static helper
+
+        /// <summary>
+        /// Stores a user input from editing a task for <see cref="EndEditingCommand"/>
+        /// </summary>
         public static string newName;
 
+        #endregion
 
         #region Private members
 
@@ -73,18 +79,22 @@ namespace TodoList.ViewModels
 
         #endregion
 
-        #region PropertyChanged stuff
+        #region Commands
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Shows additional menu with editing tools under the task
+        /// </summary>
+        public ICommand StartEditingCommand { get; set; }
 
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public ICommand EndEditingCommand { get; set; }
+
+        public ICommand GetNewNameCommand { get; set; }
 
         #endregion
 
-        public TaskViewModel()
+        #region Private Methods
+
+        private void CreateCommands()
         {
             StartEditingCommand = new RelayCommand(parameter =>
             {
@@ -109,15 +119,28 @@ namespace TodoList.ViewModels
             {
                 newName = param.ToString();
             });
-
         }
-        /// <summary>
-        /// Shows additional menu with editing tools under the task
-        /// </summary>
-        public ICommand StartEditingCommand { get; set; }
 
-        public ICommand EndEditingCommand { get; set; }
+        #endregion
 
-        public ICommand GetNewNameCommand { get; set; }
+        #region Default Constructor
+
+        public TaskViewModel()
+        {
+            CreateCommands();
+        }
+
+        #endregion
+
+        #region PropertyChanged stuff
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

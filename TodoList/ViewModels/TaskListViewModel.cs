@@ -12,13 +12,6 @@ namespace TodoList.ViewModels
     {
         #region Public methods
 
-        private void AddNewTask()
-        {
-            var task = new TaskViewModel() { Complete = false, Name = "qwe" };
-            Tasks.Add(task);
-            _syncQueue.AddItemToQueue(new Task() { Name = task.Name, Complete = task.Complete, ID = task.ID }, SyncTaskType.Add);
-        }
-
         /// <summary>
         /// Function called just before the application closes
         /// Forces the synchronization with the database
@@ -29,7 +22,6 @@ namespace TodoList.ViewModels
         {
             _syncQueue.ForceSync();
         }
-
 
         #endregion
 
@@ -57,9 +49,23 @@ namespace TodoList.ViewModels
                 _syncQueue.GetAllTasks().Tasks.Select(task =>
                     new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID }));
 
+            CreateCommands();
+        }
 
-            #region Commands definitions
+        #endregion
 
+        #region Private members
+
+        private ObservableCollection<TaskViewModel> _tasks;
+
+        private DatabaseSyncQueue _syncQueue;
+
+        #endregion
+
+        #region Private methods
+
+        private void CreateCommands()
+        {
             DeleteTaskCommand = new RelayCommand(parameter =>
             {
                 var task = (TaskViewModel)parameter;
@@ -81,7 +87,7 @@ namespace TodoList.ViewModels
 
             AddTaskCommand = new RelayCommand(parameter =>
             {
-                var textbox = (TextBox) parameter;
+                var textbox = (TextBox)parameter;
                 if (textbox.Text == "")
                     return;
 
@@ -92,29 +98,16 @@ namespace TodoList.ViewModels
                 Tasks = new ObservableCollection<TaskViewModel>(
                     _syncQueue.GetAllTasks().Tasks.Select(task =>
                         new TaskViewModel() { Complete = task.Complete, Name = task.Name, ID = task.ID }));
-                
+
             });
 
             EditTaskCommand = new RelayCommand(param =>
             {
-                var task = (TaskViewModel) param;
+                var task = (TaskViewModel)param;
 
-                _syncQueue.AddItemToQueue(new Task() { Name = task.Name, ID = task.ID, Complete = task.Complete }, SyncTaskType.Update);                
+                _syncQueue.AddItemToQueue(new Task() { Name = task.Name, ID = task.ID, Complete = task.Complete }, SyncTaskType.Update);
             });
-
-            //TestCommand = new RelayCommand(param => MessageBox.Show("asdasd"+((TaskViewModel)param)?.Name));
-
-            #endregion
         }
-
-
-        #endregion
-
-        #region Private members
-
-        private ObservableCollection<TaskViewModel> _tasks;
-
-        private DatabaseSyncQueue _syncQueue;
 
         #endregion
 
@@ -131,8 +124,6 @@ namespace TodoList.ViewModels
         public ICommand DeleteTaskCommand { get; set; }
 
         public ICommand AddTaskCommand { get; set; }
-
-       // public ICommand TestCommand { get; set; }
 
         public ICommand EditTaskCommand { get; set; }
 

@@ -27,15 +27,13 @@ namespace TodoList
             this.Closing += viewmodel.OnWindowClose;
         }
 
+
+
         private void TaskEditTextBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var textBox = (TextBox)sender;
             textBox.SelectionStart = textBox.Text.Length;
             textBox.Focus();
-        }
-        public string GetEditedTaskName()
-        {
-            return ((TextBox)this.FindName("TaskEditTextBox")).Text;
         }
 
     }
