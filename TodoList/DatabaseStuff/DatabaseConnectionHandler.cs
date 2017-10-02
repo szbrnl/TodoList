@@ -40,6 +40,7 @@ namespace TodoList.DatabaseStuff
             var sql = $"update {_tasksTableName} set taskName='{task.Name}', complete={(task.Complete ? 1 : 0)} where id={task.ID};";
             var command = new SQLiteCommand(sql, _dbConnection);
             command.ExecuteNonQuery();
+
         }
 
         /// <summary>

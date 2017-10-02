@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TodoList.DatabaseStuff;
@@ -97,7 +98,8 @@ namespace TodoList.ViewModels
             EditTaskCommand = new RelayCommand(param =>
             {
                 var task = (TaskViewModel) param;
-                
+
+                _syncQueue.AddItemToQueue(new Task() { Name = task.Name, ID = task.ID, Complete = task.Complete }, SyncTaskType.Update);                
             });
 
             //TestCommand = new RelayCommand(param => MessageBox.Show("asdasd"+((TaskViewModel)param)?.Name));

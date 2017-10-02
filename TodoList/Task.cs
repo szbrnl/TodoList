@@ -1,4 +1,5 @@
-﻿namespace TodoList
+﻿
+namespace TodoList
 {
     public class Task
     {
@@ -7,7 +8,7 @@
         /// <summary>
         /// An unique identification number of the task
         /// </summary>
-        private int _id;
+        //private int _id;
 
         #endregion
 
@@ -38,5 +39,6 @@
         }
 
         #endregion
+
     }
 }
