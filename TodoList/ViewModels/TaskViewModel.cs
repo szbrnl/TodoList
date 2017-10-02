@@ -45,12 +45,6 @@ namespace TodoList.ViewModels
 
         #endregion
 
-        public TaskViewModel()
-        {
-               TestCommand = new RelayCommand(param =>MessageBox.Show("heeeej "+ ((TaskViewModel)param)?.Name));
-        }
-
-
         #region PropertyChanged stuff
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,7 +55,5 @@ namespace TodoList.ViewModels
         }
 
         #endregion
-
-       public ICommand TestCommand { get; set; }
     }
 }

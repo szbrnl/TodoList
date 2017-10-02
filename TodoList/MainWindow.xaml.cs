@@ -20,6 +20,8 @@ namespace TodoList
             InitializeComponent();
             var viewmodel = new TaskListViewModel();
             this.DataContext = viewmodel;
+
+            //Saving and syncing just before closing
             this.Closing += viewmodel.OnWindowClose;
         }
 
