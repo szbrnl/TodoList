@@ -44,8 +44,17 @@
     </Style>
 
 
-    <Style TargetType="TextBox" x:Key="TaskEditTextBox">
-        <Setter Property="BorderThickness" Value="0"></Setter>
+    <Style TargetType="Border" x:Key="TaskEditBorder">
+        <Setter Property="BorderThickness" Value="0 0 0 2"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="LightSlateGray" Offset="0.5" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
         
 
         

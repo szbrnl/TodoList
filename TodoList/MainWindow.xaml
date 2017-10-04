@@ -30,14 +30,13 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
 
-                        <Border Style="{StaticResource BorderStyle}" Padding="0 0 0 2"  Margin="8 0 8 0"  BorderThickness="0 0 0 1">
+                        <Border Style="{StaticResource BorderStyle}" Margin="8 0 8 0"  BorderThickness="0 0 0 1">
 
                             <Grid>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions >
 
@@ -60,9 +59,9 @@
                                 </Border>
 
                                 <!-- TextBox for task editing (hidden when not in edit mode) -->
-                                <Border  Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
+                                <Border Style="{StaticResource TaskEditBorder}"  Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
 
-                                    <TextBox Style="{StaticResource TaskEditTextBox}" IsVisibleChanged="TaskEditTextBox_IsVisibleChanged"  Padding="2 0 0 0" VerticalAlignment="Center" x:Name="TaskEditTextBox" Text="{Binding NewName}">
+                                    <TextBox  Margin="0 5 0 3"  BorderThickness="0" IsVisibleChanged="TaskEditTextBox_IsVisibleChanged"  Padding="2 0 0 0" VerticalAlignment="Center" x:Name="TaskEditTextBox" Text="{Binding NewName}">
 
                                         <i:Interaction.Triggers>
                                             <!-- EndEditingCommand. Fires when click outside the textbox -->
