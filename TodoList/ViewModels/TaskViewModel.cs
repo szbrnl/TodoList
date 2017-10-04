@@ -8,24 +8,20 @@ namespace TodoList.ViewModels
 {
     public class TaskViewModel : INotifyPropertyChanged
     {
-        #region Static helper
-
-        /// <summary>
-        /// Stores a user input from editing a task for <see cref="EndEditingCommand"/>
-        /// </summary>
-
-
-
- 
-        #endregion
 
         #region Private members
 
         private string _name;
+
         private bool _complete;
+
         private string _description;
+
         private bool _editing;
 
+        /// <summary>
+        /// Name given after user's editing
+        /// </summary>
         private string _newName;
 
         #endregion
@@ -34,6 +30,9 @@ namespace TodoList.ViewModels
 
         public int ID { get; set; }
 
+        /// <summary>
+        /// Name given after user's editing
+        /// </summary>
         public string NewName
         {
             get => _newName;
@@ -44,8 +43,6 @@ namespace TodoList.ViewModels
                 OnPropertyChanged(nameof(NewName));
             }
         }
-
-
 
         public bool Editing
         {
@@ -85,13 +82,14 @@ namespace TodoList.ViewModels
         #region Commands
 
         /// <summary>
-        /// Shows additional menu with editing tools under the task
+        /// Shows TextBox instead of label of edited task, allows user to edit the name of task
         /// </summary>
         public ICommand StartEditingCommand { get; set; }
 
+        /// <summary>
+        /// Hides TextBox for task editing and shows label, saves the changes and asks TaskListViewModel to sync them
+        /// </summary>
         public ICommand EndEditingCommand { get; set; }
-
-        public ICommand GetNewNameCommand { get; set; }
 
         #endregion
 
@@ -111,19 +109,24 @@ namespace TodoList.ViewModels
             EndEditingCommand = new RelayCommand(parameter =>
             {
                 var task = (TaskViewModel)parameter;
+
+                //If nothing has changed - no syncing needed
+                if (task.Name == NewName)
+                {
+                    task.Editing = false;
+                    return;
+                }
+
                 task.Name = NewName;
 
                 var dc = (TaskListViewModel)Application.Current.MainWindow.DataContext;
 
+                //Asks viewModel to save changes and sync
                 dc.EditTaskCommand.Execute(task);
 
                 task.Editing = false;
             });
 
-            GetNewNameCommand = new RelayCommand(param =>
-            {
-                NewName = param.ToString();
-            });
         }
 
         #endregion
