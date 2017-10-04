@@ -58,7 +58,11 @@
                                     <!-- Each task item -->
 
                                     <Border Grid.Column="1" Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=asd}">
-                                        <Label Grid.Column="1" x:Name="taskLabel" VerticalAlignment="Center" Content="{Binding Name, Mode=OneWay}"  />
+                                        <Label Grid.Column="1" x:Name="taskLabel" VerticalAlignment="Center" Content="{Binding Name, Mode=OneWay}">
+                                            <Label.InputBindings>
+                                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding StartEditingCommand}" CommandParameter="{Binding}"></MouseBinding>
+                                            </Label.InputBindings>
+                                        </Label>
                                     </Border>
 
                                     <Border  Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
@@ -69,14 +73,14 @@
                                                     <i:InvokeCommandAction Command="{Binding EndEditingCommand}" CommandParameter="{Binding}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
-                                            
+
                                             <TextBox.InputBindings>
                                                 <KeyBinding Key="Enter" Command="{Binding EndEditingCommand}" CommandParameter="{Binding}"></KeyBinding>
                                             </TextBox.InputBindings>
-                                            
+
                                         </TextBox>
                                     </Border>
-                                    <Label Grid.Column="3" Content="{Binding ID}"/>
+
 
                                 </Grid>
 
@@ -102,7 +106,7 @@
                     <KeyBinding Key="Enter" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}"/>
                 </TextBox.InputBindings>
             </TextBox>
-                     
+
             <Button Grid.Column="1" Margin="10 0 10 0" Content="Dodaj" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}" />
         </Grid>
 
