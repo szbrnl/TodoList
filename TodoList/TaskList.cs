@@ -4,34 +4,24 @@ namespace TodoList
 {
     public class TaskList
     {
-        #region Private members
+        #region Constructors
 
-        private List<Task> _taskList;
+        public TaskList()
+        {
+            Tasks = new List<Task>();
+        }
 
         #endregion
 
         #region Public Properties 
 
-        public List<Task> Tasks
-        {
-            get => _taskList;
-            set => _taskList = value;
-        }
-
-        #endregion
-
-        #region Constructors
-
-        public TaskList()
-        {
-            _taskList = new List<Task>();
-        }
+        public List<Task> Tasks { get; set; }
 
         #endregion
 
         public void AddTask(Task task)
         {
-            _taskList.Add(task);
+            Tasks.Add(task);
         }
     }
 }
