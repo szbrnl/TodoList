@@ -26,7 +26,7 @@
 
         <ScrollViewer Grid.Row="0" >
 
-            <ItemsControl x:Name="TaskItemsControl" ItemsSource="{Binding Tasks, Mode=TwoWay}">
+            <ItemsControl FocusVisualStyle="{x:Null}" x:Name="TaskItemsControl" ItemsSource="{Binding Tasks, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
 
@@ -61,14 +61,19 @@
                                         <Label Grid.Column="1" x:Name="taskLabel" VerticalAlignment="Center" Content="{Binding Name, Mode=OneWay}"  />
                                     </Border>
 
-                                    <Border Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
-                                        <TextBox IsVisibleChanged="TaskEditTextBox_IsVisibleChanged"  Padding="2 0 0 0" VerticalAlignment="Center" x:Name="TaskEditTextBox" Text="{Binding ElementName=taskLabel,Path=Content, Mode=TwoWay}">
+                                    <Border  Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
+                                        <TextBox Style="{StaticResource TaskEditTextBox}" IsVisibleChanged="TaskEditTextBox_IsVisibleChanged"  Padding="2 0 0 0" VerticalAlignment="Center" x:Name="TaskEditTextBox" Text="{Binding NewName}">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="LostFocus">
-                                                    <i:InvokeCommandAction Command="{Binding GetNewNameCommand}" CommandParameter="{Binding ElementName=TaskEditTextBox, Path=Text}" />
+                                                    <!--<i:InvokeCommandAction Command="{Binding GetNewNameCommand}" CommandParameter="{Binding ElementName=TaskEditTextBox, Path=Text}" />-->
                                                     <i:InvokeCommandAction Command="{Binding EndEditingCommand}" CommandParameter="{Binding}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
+                                            
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Enter" Command="{Binding EndEditingCommand}" CommandParameter="{Binding}"></KeyBinding>
+                                            </TextBox.InputBindings>
+                                            
                                         </TextBox>
                                     </Border>
                                     <Label Grid.Column="3" Content="{Binding ID}"/>
@@ -92,7 +97,12 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" x:Name="InputTextBox"/>
+            <TextBox Grid.Column="0" x:Name="InputTextBox">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+                     
             <Button Grid.Column="1" Margin="10 0 10 0" Content="Dodaj" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}" />
         </Grid>
 

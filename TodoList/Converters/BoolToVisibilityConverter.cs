@@ -14,7 +14,7 @@ namespace TodoList.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           if(parameter.ToString() == "asd")
+           if(parameter?.ToString() == "asd")
             {
                 if ((bool)value) return Visibility.Collapsed;
 

@@ -44,7 +44,12 @@
     </Style>
 
 
+    <Style TargetType="TextBox" x:Key="TaskEditTextBox">
+        <Setter Property="BorderThickness" Value="0.2"></Setter>
+        
 
+        
+    </Style>
 
     <Style TargetType="CheckBox" x:Key="TaskDoneCB">
         <Setter Property="VerticalAlignment" Value="Center"/>

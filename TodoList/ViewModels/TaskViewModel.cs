@@ -13,8 +13,10 @@ namespace TodoList.ViewModels
         /// <summary>
         /// Stores a user input from editing a task for <see cref="EndEditingCommand"/>
         /// </summary>
-        public static string newName;
 
+
+
+ 
         #endregion
 
         #region Private members
@@ -23,6 +25,7 @@ namespace TodoList.ViewModels
         private bool _complete;
         private string _description;
         private bool _editing;
+
         private string _newName;
 
         #endregion
@@ -33,7 +36,7 @@ namespace TodoList.ViewModels
 
         public string NewName
         {
-            get { return _newName; }
+            get => _newName;
             set
             {
                 if (_newName == value) return;
@@ -100,13 +103,15 @@ namespace TodoList.ViewModels
             {
                 var task = (TaskViewModel)parameter;
 
+                NewName = Name;
+
                 task.Editing = true;
             });
 
             EndEditingCommand = new RelayCommand(parameter =>
             {
                 var task = (TaskViewModel)parameter;
-                task.Name = newName;
+                task.Name = NewName;
 
                 var dc = (TaskListViewModel)Application.Current.MainWindow.DataContext;
 
@@ -117,7 +122,7 @@ namespace TodoList.ViewModels
 
             GetNewNameCommand = new RelayCommand(param =>
             {
-                newName = param.ToString();
+                NewName = param.ToString();
             });
         }
 
