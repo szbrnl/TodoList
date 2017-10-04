@@ -1,18 +1,7 @@
-﻿
-namespace TodoList
+﻿namespace TodoList
 {
     public class Task
     {
-        #region Private members
-
-        /// <summary>
-        /// An unique identification number of the task
-        /// </summary>
-        //private int _id;
-
-        #endregion
-
-
         #region Public properties
 
         public string Name { get; set; }
@@ -24,21 +13,5 @@ namespace TodoList
         public int ID { get; set; }
 
         #endregion
-
-
-        #region Public methods
-
-        #endregion
-
-
-        #region Constructors
-
-        public Task()
-        {
-
-        }
-
-        #endregion
-
     }
 }
