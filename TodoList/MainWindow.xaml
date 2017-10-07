@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TodoList"
         xmlns:viewModels="clr-namespace:TodoList.ViewModels"
-        xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:converters="clr-namespace:TodoList.Converters"
         mc:Ignorable="d"
@@ -14,73 +14,90 @@
         Title="MainWindow" Height="340" Width="525">
 
     <Window.Resources>
-        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
-        <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVisibilityConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
     </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="0" >
+        <ScrollViewer Grid.Row="0">
 
-            <ItemsControl FocusVisualStyle="{x:Null}" x:Name="TaskItemsControl" ItemsSource="{Binding Tasks, Mode=TwoWay}">
+            <ItemsControl FocusVisualStyle="{x:Null}" x:Name="TaskItemsControl"
+                          ItemsSource="{Binding Tasks, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
 
-                        <Border Style="{StaticResource BorderStyle}" Margin="8 0 8 0"  BorderThickness="0 0 0 1">
+                        <Border x:Name="MainTaskBorder" Style="{StaticResource BorderStyle}" Margin="8 0 8 0"
+                                BorderThickness="0 0 0 1">
 
                             <Grid>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
                                 <!-- context menu of each task -->
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Remove" Command="{Binding Source={x:Static Application.Current}, Path=MainWindow.DataContext.DeleteTaskCommand}" CommandParameter="{Binding}"/>
-                                        <MenuItem Header="Edit" Command="{Binding StartEditingCommand}" CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Remove"
+                                                  Command="{Binding Source={x:Static Application.Current}, Path=MainWindow.DataContext.DeleteTaskCommand}"
+                                                  CommandParameter="{Binding}" />
+                                        <MenuItem Header="Edit" Command="{Binding StartEditingCommand}"
+                                                  CommandParameter="{Binding}" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
-                                <CheckBox Style="{StaticResource TaskDoneCB}" IsChecked="{Binding Complete}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TaskDoneChangedCommand}" CommandParameter="{Binding}"/>
+                                <CheckBox Style="{StaticResource TaskDoneCB}" IsChecked="{Binding Complete}"
+                                          Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TaskDoneChangedCommand}"
+                                          CommandParameter="{Binding}" />
 
                                 <!--Task label (hidden when in edit mode) -->
-                                <Border Grid.Column="1" Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=asd}">
-                                    <Label Grid.Column="1" x:Name="taskLabel" VerticalAlignment="Center" Content="{Binding Name, Mode=OneWay}">
+                                <Border Width="{Binding ActualWidth, ElementName=MainTaskBorder}" Grid.Column="1"
+                                        Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=asd}">
+                                    <Label Grid.Column="1" HorizontalAlignment="Stretch" x:Name="taskLabel"
+                                           VerticalAlignment="Center" Content="{Binding Name, Mode=OneWay}">
                                         <Label.InputBindings>
-                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding StartEditingCommand}" CommandParameter="{Binding}"></MouseBinding>
+                                            <MouseBinding MouseAction="LeftDoubleClick"
+                                                          Command="{Binding StartEditingCommand}"
+                                                          CommandParameter="{Binding}" />
                                         </Label.InputBindings>
                                     </Label>
                                 </Border>
 
                                 <!-- TextBox for task editing (hidden when not in edit mode) -->
-                                <Border Style="{StaticResource TaskEditBorder}"  Grid.Column="2"  Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
+                                <Border Width="{Binding ActualWidth, ElementName=MainTaskBorder}"
+                                        Style="{StaticResource TaskEditBorder}" Grid.Column="2"
+                                        Visibility="{Binding Editing, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=editingPanel}">
 
-                                    <TextBox  Margin="0 5 0 3"  BorderThickness="0" IsVisibleChanged="TaskEditTextBox_IsVisibleChanged"  Padding="2 0 0 0" VerticalAlignment="Center" x:Name="TaskEditTextBox" Text="{Binding NewName}">
+                                    <TextBox Margin="0 5 0 3" BorderThickness="0"
+                                             IsVisibleChanged="TaskEditTextBox_IsVisibleChanged" Padding="2 0 0 0"
+                                             VerticalAlignment="Center" x:Name="TaskEditTextBox"
+                                             Text="{Binding NewName}">
 
                                         <i:Interaction.Triggers>
                                             <!-- EndEditingCommand. Fires when click outside the textbox -->
                                             <i:EventTrigger EventName="LostFocus">
-                                                <i:InvokeCommandAction Command="{Binding EndEditingCommand}" CommandParameter="{Binding}" />
+                                                <i:InvokeCommandAction Command="{Binding EndEditingCommand}"
+                                                                       CommandParameter="{Binding}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
                                         <!-- Pressing enter in edit mode accepts the changes -->
                                         <TextBox.InputBindings>
-                                            <KeyBinding Key="Enter" Command="{Binding EndEditingCommand}" CommandParameter="{Binding}"></KeyBinding>
+                                            <KeyBinding Key="Enter" Command="{Binding EndEditingCommand}"
+                                                        CommandParameter="{Binding}" />
                                         </TextBox.InputBindings>
-                                        
+
                                     </TextBox>
-                                    
+
                                 </Border>
 
                             </Grid>
-                            
+
                         </Border>
 
                     </DataTemplate>
@@ -94,20 +111,22 @@
         <Grid Grid.Row="1" Margin="0 10 0 0">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!-- TextBox for new task -->
             <TextBox Grid.Column="0" x:Name="InputTextBox">
                 <TextBox.InputBindings>
                     <!-- Pressing Enter to adds a task -->
-                    <KeyBinding Key="Enter" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}"/>
+                    <KeyBinding Key="Enter" Command="{Binding AddTaskCommand}"
+                                CommandParameter="{Binding ElementName=InputTextBox}" />
                 </TextBox.InputBindings>
             </TextBox>
 
             <!-- Add task button -->
-            <Button Grid.Column="1" Margin="10 0 10 0" Content="Dodaj" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=InputTextBox}" />
+            <Button Grid.Column="1" Margin="10 0 10 0" Content="Dodaj" Command="{Binding AddTaskCommand}"
+                    CommandParameter="{Binding ElementName=InputTextBox}" />
 
         </Grid>
 
