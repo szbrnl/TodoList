@@ -1,4 +1,5 @@
 ﻿//TODO
+//[ ] xaml popup - do edycji zaawansowanej zadania?
 //[ ] !!! Styl dla textboxa żeby wyglądał jak label ale dało się go edytować
 //[ ] animacja zanikania zadania przy jego wykonaniu
 //[ ] ui dla textboxa do dodawania zadania
