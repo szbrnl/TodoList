@@ -98,6 +98,8 @@
     <Compile Include="Task.cs" />
     <Compile Include="DatabaseStuff\DatabaseConnectionHandler.cs" />
     <Compile Include="TaskList.cs" />
+    <Compile Include="TodoistConnection\TodoistConnectionHandler.cs" />
+    <Compile Include="TodoistConnection\TodoistSync.cs" />
     <Compile Include="ViewModels\TaskListViewModel.cs" />
     <Compile Include="ViewModels\TaskViewModel.cs" />
     <Page Include="MainWindow.xaml">

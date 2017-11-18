@@ -131,17 +131,6 @@
 
         </Grid>
 
-
-
-        <Popup Name="Popup1" HorizontalAlignment="Left"   
-               VerticalAlignment="Top" Width="200" Height="50"   
-               IsOpen="True" PlacementTarget="{Binding ElementName=TaskItemsControl}" >
-            <TextBlock Name="McTextBlock"   
-                       Background="LightBlue" >  
-                This is popup text
-            </TextBlock>
-        </Popup>
-
     </Grid>
 
 

@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace TodoList.ViewModels
 {
+    //jkdjdjkdjkdjkdjkdjk
+
     public class TaskViewModel : INotifyPropertyChanged
     {
         #region Default Constructor
@@ -26,6 +28,11 @@ namespace TodoList.ViewModels
                 NewName = Name;
 
                 task.Editing = true;
+
+
+                var x = new TodoistConnection.TodoistConnectionHandler();
+                x.GetAllTasks();
+
             });
 
             EndEditingCommand = new RelayCommand(parameter =>
