@@ -4,7 +4,6 @@ using System.Windows.Input;
 
 namespace TodoList.ViewModels
 {
-    //jkdjdjkdjkdjkdjkdjk
 
     public class TaskViewModel : INotifyPropertyChanged
     {
